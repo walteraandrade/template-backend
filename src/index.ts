@@ -1,10 +1,9 @@
 import { createServer } from 'http';
 import { logger } from './logger';
+import { router } from './router';
 
 const server = createServer((req, res) => {
-
-    res.write("Hello, Wold!")
-    return res.end()
+    router(req, res, req.url)
 });
 
 const PORT = process.env.PORT || 3000;
