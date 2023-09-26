@@ -144,6 +144,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -153,7 +154,8 @@ const config = {
     }
   },
   "inlineSchema": "Ly8gcHJpc21hL3NjaGVtYS5wcmlzbWEKCmRhdGFzb3VyY2UgZGIgewogIHByb3ZpZGVyID0gInBvc3RncmVzcWwiCiAgdXJsICAgICAgPSBlbnYoIkRBVEFCQVNFX1VSTCIpCn0KCmdlbmVyYXRvciBjbGllbnQgewogIHByb3ZpZGVyID0gInByaXNtYS1jbGllbnQtanMiCiAgb3V0cHV0ICAgPSAiLi9nZW5lcmF0ZWQvY2xpZW50Igp9Cgptb2RlbCBVc2VyIHsKICBpZCAgICBJbnQgICAgICBAaWQgQGRlZmF1bHQoYXV0b2luY3JlbWVudCgpKQogIG5hbWUgIFN0cmluZwogIGVtYWlsIFN0cmluZyAgIEB1bmlxdWUKfQo=",
-  "inlineSchemaHash": "1a89523955016b2eb09d8f6dded51a7a7f5160882336e1470ab92d9082f7efdf"
+  "inlineSchemaHash": "1a89523955016b2eb09d8f6dded51a7a7f5160882336e1470ab92d9082f7efdf",
+  "noEngine": false
 }
 config.dirname = '/'
 
