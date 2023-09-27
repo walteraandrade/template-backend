@@ -1,33 +1,55 @@
-import { logger } from "./logger"
-import { handleCreateUser, handleGetCompanyName, handleGetUser, handleNotFound } from "./route-handlers"
+import { Request, httpHandler } from "./middlewares/http-handler"
+import {
+  handleCreateUser,
+  handleGetUser, handleNotFound,
+} from "./route-handlers"
 import { IncomingMessage, ServerResponse } from "http"
 
 enum Routes {
   GetCompanyName = "/get-company-name",
   CreateUser = "/create-user",
-  GetUser = "/get-user"
+  GetUser = "/get-user",
 }
 
-export function router(
+export async function router(
   req: IncomingMessage,
-  res: ServerResponse<IncomingMessage>,
-  route?: string
+  res: ServerResponse<IncomingMessage>
 ) {
-  
-  if (route === undefined || route === '/') {
-    return handleNotFound({ req, res })
-  }
-  if (route === Routes.GetCompanyName) {
-    return handleGetCompanyName({ req, res })
-  }
-  
-  if (route === Routes.CreateUser) {
-    return handleCreateUser({ req, res })
-  }
+  const route = req.url
 
-  if (route === Routes.GetUser) {
-    return handleGetUser({ req, res })
-  }
+  switch (req.method) {
+    case "GET":
+      if (route === undefined || route === "/") {
+        return httpHandler({
+          req,
+          res,
+          next: (nextReq) => handleNotFound({ req: nextReq, res }),
+        })
+      }
+      
+      if (route === Routes.GetUser) {
+        return httpHandler({
+          req,
+          res,
+          next: (parsedReq) => handleGetUser({ req: parsedReq, res }),
+        })
+      }
 
-  else return res.end()
+      break;
+
+    case "POST":
+      if (route === Routes.CreateUser) {
+        return httpHandler({ req, res, next: (parsedReq) => handleCreateUser({ req: parsedReq, res }) })
+      }
+      break;
+
+    default:
+      if (route === undefined || route === "/") {
+        return httpHandler({
+          req,
+          res,
+          next: (parsedReq) => handleNotFound({ req: parsedReq, res }),
+        })
+      }
+  }
 }
