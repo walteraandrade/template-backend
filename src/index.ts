@@ -1,13 +1,8 @@
-import { createServer } from 'http';
+import express from 'express';
 import { logger } from './logger';
-import { router } from './router';
-import { requestParser } from './middlewares/http-handler';
+import { userRouter }from './routes/user'
+const app = express();
 
-
-const server = createServer((req, res) => {
-    router(req, res)
-});
-
-
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => logger(`Server is listening on port ${PORT}`));
+app.use(express.json())
+app.use('/user', userRouter)
+app.listen(3000, () => logger("Server running on port 3000"));

@@ -1,37 +1,28 @@
-import { IncomingMessage, ServerResponse } from "http"
 import { User } from "../prisma/generated/client"
 import { createUser } from "./user/create-user"
 import { getUserByEmail } from "./user/get-user"
-import { Request } from "./middlewares/http-handler"
+import { Request, Response } from "express"
 
 const sharedHeader: Record<string, string> = {
   "Content-Type": "text/plain",
   "X-Powered-By": "Cuscuz and Eggs",
 }
 
-interface RouteHandlersParams {
-  req: Promise<Request>
-  res: ServerResponse<IncomingMessage>
+export function handleNotFound(req: Request, res: Response) {
+  res.sendStatus(404)
 }
 
-export function handleNotFound({ res }: RouteHandlersParams) {
-  res.writeHead(404, sharedHeader).write("Route not found")
-  res.end()
-}
-
-export async function handleCreateUser({ req, res }: RouteHandlersParams) {
-
-  const reqBody = await (await req).body
-  if (!reqBody) {
+export async function handleCreateUser(req: Request, res: Response) {
+  
+  if (!req.body) {
     return res.end("In order to create an user you need to provide the correct data")
   }
 
-  const userData: User = reqBody
-  if (!isValidUser(userData)) {
+  if (!isValidUser(req.body)) {
     throw new Error("Invalid user")
   }
 
-  const newUser = await createUser(userData)
+  const newUser = await createUser(req.body)
 
   res
     .writeHead(200, sharedHeader)
@@ -40,8 +31,10 @@ export async function handleCreateUser({ req, res }: RouteHandlersParams) {
   res.end()
 }
 
-export async function handleGetUser({ req, res }: RouteHandlersParams) {
-  const userEmail = (await req).body.email
+export async function handleGetUser(req: Request, res: Response) {
+
+
+  const userEmail = req.body.email
   if (!userEmail) {
     return res.end("Cannot query user without an email")
   }
