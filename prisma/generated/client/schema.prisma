@@ -15,3 +15,10 @@ model User {
   name  String
   email String   @unique
 }
+
+model Product {
+  id Int @id @default(autoincrement())
+  name String
+  label String
+  priceInCents Int
+}
