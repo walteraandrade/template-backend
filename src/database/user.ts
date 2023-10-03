@@ -1,7 +1,11 @@
-import { User } from "../../prisma/generated/client"
+import { User as PrismaUser } from "../../prisma/generated/client"
 import { Database } from "./database.service"
 
 export class UserDatabase extends Database {
+  async createUser(user: Omit<PrismaUser, "id">) {
+    return await this.client.user.create({ data: user })
+  }
+
   async getUserById(id: number) {
     return await this.client.user.findUnique({
       where: {
