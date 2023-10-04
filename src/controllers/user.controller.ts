@@ -1,5 +1,7 @@
 import { User as PrismaUser } from "../../prisma/generated/client"
-import { User } from "../entities/user"
+import { UserDatabase } from "../database/user.database"
+import prisma from "../db"
+import { User } from "../entities/user.entity"
 import { Request, Response } from "express"
 
 const sharedHeader: Record<string, string> = {
@@ -49,12 +51,12 @@ export async function handleUpdateUserEmail(req: Request, res: Response) {
 }
 
 export async function handleGetUser(req: Request, res: Response) {
-  console.log(1)
   const userId = Number(req.body.user.id)
 
   if (!userId) {
     throw new Error("An id is necessary to find user")
   }
+  const db = new UserDatabase(prisma)
   const user = await User.findById(userId)
 
   res.write(JSON.stringify(user))

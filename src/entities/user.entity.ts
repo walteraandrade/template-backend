@@ -1,6 +1,8 @@
-import { UserDatabase } from "../database/user"
+import { UserDatabase } from "../database/user.database"
 import prisma from "../db"
 import { User as PrismaUser } from "../../prisma/generated/client"
+
+//SEE HOW TO USE DECORATORS TO INSERT PRISMA CLIENT HERE
 
 export class User {
   static id: number

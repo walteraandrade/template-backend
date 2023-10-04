@@ -1,7 +1,12 @@
-import { User as PrismaUser } from "../../prisma/generated/client"
+import { PrismaClient, User as PrismaUser } from "../../prisma/generated/client"
 import { Database } from "./database.service"
 
-export class UserDatabase extends Database {
+export class UserDatabase {
+  private readonly client: PrismaClient
+
+  constructor(prisma: PrismaClient) {
+    this.client = prisma
+  }
   async createUser(user: Omit<PrismaUser, "id">) {
     return await this.client.user.create({ data: user })
   }

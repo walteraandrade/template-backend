@@ -1,4 +1,4 @@
-import { ProductsDatabase } from "../database/product"
+import { ProductsDatabase } from "../database/product.database"
 import prisma from "../db"
 import { Product as ProductModel } from "../../prisma/generated/client"
 

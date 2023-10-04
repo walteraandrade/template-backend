@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { Product } from "../entities/product"
+import { Product } from "../entities/product.entity"
 
 export const handleCreateProduct = async (req: Request, res: Response) => {
   if (!req.body.product) {
