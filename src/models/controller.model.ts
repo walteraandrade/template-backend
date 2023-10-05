@@ -2,11 +2,11 @@ export type HttpRequest = {
   body?: any
 }
 
-export type HttpResponse = {
+export type HttpResponse<T> = {
   statusCode: number
-  body: any
+  body: T | string
 }
 
-export interface Controller {
-  handle: (request: HttpRequest) => Promise<HttpResponse>
+export interface Controller<T> {
+  handle: (request: HttpRequest) => Promise<HttpResponse<T>>
 }

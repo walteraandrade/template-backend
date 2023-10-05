@@ -1,22 +1,18 @@
-import * as express from "express"
-import {
-  handleCreateUser,
-  handleGetUser,
-  handleUpdateUserEmail,
-} from "../controllers/user.controller"
+import { Router } from "express"
 import { httpParser } from "../middlewares/http-adapter.middleware"
-import { createGetUserController } from "../factory/get-user-controller.factory"
+import { generateFindUserController } from "../factory/generate-user-controller.factory"
+import { generateCreateUserController } from "../factory/generate-create-user-controller.factory"
+import { generateChangeUserEmailController } from "../factory/user/generate-change-user-email-controller.factory"
 
-const router = express.Router()
+const router = Router()
 
-router.get("/get-user", httpParser(createGetUserController()))
+router.get("/get-user", httpParser(generateFindUserController()))
 
-router.post("/create-user", (req, res) => {
-  handleCreateUser(req, res)
-})
+router.post("/create-user", httpParser(generateCreateUserController()))
 
-router.post("/update-user-email", (req, res) => {
-  handleUpdateUserEmail(req, res)
-})
+router.post(
+  "/update-user-email",
+  httpParser(generateChangeUserEmailController())
+)
 
 export const userRouter = router
