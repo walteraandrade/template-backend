@@ -38,7 +38,7 @@ export class FindProductController implements Controller<ProductModel> {
     } catch (err) {
       return {
         statusCode: 500,
-        body: "Unknown error",
+        body: "Unknown error at FindProductController",
       }
     }
   }

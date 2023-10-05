@@ -1,5 +1,5 @@
 import { User as UserModel } from "../../../prisma/generated/client"
-import { UserDatabase } from "../../database/user.database"
+import { FindUserUseCase } from "../../domain/find-user.use-case"
 import {
   Controller,
   HttpRequest,
@@ -7,10 +7,10 @@ import {
 } from "../../models/controller.model"
 
 export class FindUserController implements Controller<UserModel> {
-  private readonly userDb: UserDatabase
+  private readonly findUserUseCase: FindUserUseCase
 
-  constructor(userDb: UserDatabase) {
-    this.userDb = userDb
+  constructor(findUserUseCase: FindUserUseCase) {
+    this.findUserUseCase = findUserUseCase
   }
 
   async handle(request: HttpRequest): Promise<HttpResponse<UserModel>> {
@@ -21,7 +21,7 @@ export class FindUserController implements Controller<UserModel> {
           body: "Invalid format. User id is required.",
         }
       }
-      const newUserData = await this.userDb.getUserById(request.body.user.id)
+      const newUserData = await this.findUserUseCase.exec(request.body.user.id)
       if (newUserData) {
         return {
           statusCode: 200,
@@ -36,7 +36,7 @@ export class FindUserController implements Controller<UserModel> {
     } catch (err) {
       return {
         statusCode: 500,
-        body: "Unknown error",
+        body: "Unknown error at FindUserController",
       }
     }
   }

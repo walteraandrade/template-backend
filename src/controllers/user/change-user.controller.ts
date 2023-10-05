@@ -46,7 +46,7 @@ export class ChangeUserEmailController implements Controller<UserModel> {
     } catch (err) {
       return {
         statusCode: 500,
-        body: "Unknown error",
+        body: "Unknown error at ChangeUserController",
       }
     }
   }
