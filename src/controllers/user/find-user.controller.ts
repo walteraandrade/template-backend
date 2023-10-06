@@ -13,9 +13,11 @@ export class FindUserController implements Controller<UserModel> {
     this.findUserUseCase = findUserUseCase
   }
 
-  async handle(request: HttpRequest): Promise<HttpResponse<UserModel>> {
+  async handle(
+    request: HttpRequest
+  ): Promise<HttpResponse<UserModel | string>> {
     try {
-      if (!request.body.user.id) {
+      if (!request.body || !request.body.user || !request.body.user.id) {
         return {
           statusCode: 406,
           body: "Invalid format. User id is required.",

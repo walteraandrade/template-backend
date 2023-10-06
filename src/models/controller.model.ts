@@ -4,9 +4,9 @@ export type HttpRequest = {
 
 export type HttpResponse<T> = {
   statusCode: number
-  body: T | string
+  body: T
 }
 
 export interface Controller<T> {
-  handle: (request: HttpRequest) => Promise<HttpResponse<T>>
+  handle: (request: HttpRequest) => Promise<HttpResponse<T | string>>
 }
